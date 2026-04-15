@@ -3,25 +3,172 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: #C2185B;
+  --color-secondary: #F8BBD9;
+  --color-accent: #FFCCBC;
+  --color-bg: #FFF8F2;
+  --color-surface: #FFFFFF;
+  --color-text: #3E1A24;
+  --color-text-secondary: #A0687A;
+  --color-gold: #F4C27F;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+
+  ::selection {
+    background: rgba(194, 24, 91, 0.15);
+    color: #3E1A24;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 248, 242, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(248, 187, 217, 0.25);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(248, 187, 217, 0.3);
+  }
+
+  .glass-dark {
+    background: rgba(62, 26, 36, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(248, 187, 217, 0.1);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #C2185B 0%, #F8BBD9 50%, #E91E63 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #F4C27F 0%, #E8A94F 50%, #F4C27F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Brand gradients */
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #C2185B 0%, #F8BBD9 100%);
+  }
+
+  .bg-gradient-warm {
+    background: linear-gradient(135deg, #FFCCBC 0%, #FFF8F2 100%);
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(160deg, #FFF8F2 0%, #FFD9E4 30%, #FFF8F2 50%, #FFEDE3 70%, #FFF8F2 100%);
+  }
+
+  .bg-gradient-section {
+    background: linear-gradient(180deg, #FFF8F2 0%, #FFFFFF 50%, #FFF8F2 100%);
+  }
+
+  .bg-gradient-section-alt {
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF0F3 50%, #FFF8F2 100%);
+  }
+
+  /* Premium glow button */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-glow::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #C2185B, #F8BBD9, #C2185B);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(12px);
+    z-index: -1;
+  }
+  .btn-glow:hover::before {
+    opacity: 0.6;
+  }
+
+  /* Gold shimmer badge */
+  .gold-shimmer {
+    background: linear-gradient(
+      90deg,
+      #F4C27F 0%,
+      #FFE4B0 30%,
+      #F4C27F 50%,
+      #FFE4B0 70%,
+      #F4C27F 100%
+    );
+    background-size: 200% 100%;
+    animation: gold-shimmer 4s ease infinite;
+  }
+
+  /* Gradient borders */
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(194, 24, 91, 0.3), rgba(248, 187, 217, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Premium card effect */
+  .premium-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(248, 187, 217, 0.2);
+    box-shadow: 0 4px 24px -4px rgba(62, 26, 36, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .premium-card:hover {
+    border-color: rgba(194, 24, 91, 0.15);
+    box-shadow: 0 20px 40px -12px rgba(194, 24, 91, 0.12), 0 0 0 1px rgba(248, 187, 217, 0.3);
+    transform: translateY(-4px);
+  }
+
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FFF8F2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #F8BBD9;
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C2185B;
   }
 }
