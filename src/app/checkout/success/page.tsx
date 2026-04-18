@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle, ShoppingBag, ArrowRight, Package } from "lucide-react";
+import { CheckCircle, ShoppingBag, Package } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";

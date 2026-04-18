@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, Heart, Leaf, Award, Sparkles, Droplets, Wind, Feather } from "lucide-react";
+import { ShieldCheck, Heart, Leaf, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import { StaggerContainer, StaggerItem, FadeIn } from "./MotionWrapper";
 

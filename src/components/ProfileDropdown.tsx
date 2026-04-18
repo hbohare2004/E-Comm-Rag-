@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+// Removed unused Link import
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Package, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
