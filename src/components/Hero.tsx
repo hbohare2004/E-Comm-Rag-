@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles, Shield, Heart, Star, Droplets, Wind, Feather } from "lucide-react";
-import { motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 
 const stats = [
   { icon: Shield, label: "Clinically Tested", value: "100%" },
@@ -42,49 +44,95 @@ const padLayers = [
   },
 ];
 
+type PadLayer = (typeof padLayers)[number];
+
+/** Index-based stagger on layersScrollProgress (0→1 over layersRef scroll span). */
+function useLayerScrollTransforms(
+  i: number,
+  scrollYProgress: MotionValue<number>,
+  prefersReducedMotion: boolean | null
+) {
+  const start = i * 0.08;
+  const end = start + 0.3;
+  const reduced = prefersReducedMotion === true;
+  const clampOpts = { clamp: true } as const;
+
+  const opacity = useTransform(
+    scrollYProgress,
+    [start, end],
+    reduced ? [1, 1] : [0, 1],
+    clampOpts
+  );
+  const x = useTransform(
+    scrollYProgress,
+    [start, end],
+    reduced ? [0, 0] : [-50, 0],
+    clampOpts
+  );
+  const y = useTransform(
+    scrollYProgress,
+    [start, end],
+    reduced ? [0, 0] : [30, 0],
+    clampOpts
+  );
+  const scale = useTransform(
+    scrollYProgress,
+    [start, end],
+    reduced ? [1, 1] : [0.9, 1],
+    clampOpts
+  );
+
+  return { opacity, x, y, scale };
+}
+
+function PadLayerRow({
+  layer,
+  index,
+  scrollYProgress,
+  prefersReducedMotion,
+}: {
+  layer: PadLayer;
+  index: number;
+  scrollYProgress: MotionValue<number>;
+  prefersReducedMotion: boolean | null;
+}) {
+  const { opacity, x, y, scale } = useLayerScrollTransforms(
+    index,
+    scrollYProgress,
+    prefersReducedMotion
+  );
+
+  return (
+    <div className="pad-layer relative">
+      <motion.div
+        className={`group/pad-row flex cursor-default items-center gap-3 rounded-2xl bg-gradient-to-r ${layer.color} px-4 py-3 shadow-sm transition-all duration-300 sm:gap-4 sm:px-5 sm:py-4 lg:hover:shadow-md`}
+        style={{ opacity, x, y, scale }}
+      >
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/80 shadow-sm transition-transform duration-300 sm:h-10 sm:w-10 lg:group-hover/pad-row:scale-105">
+          <layer.icon className="h-4 w-4 text-primary-500 sm:h-5 sm:w-5" />
+        </div>
+        <div className="pad-label min-w-0 flex-1 opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover/pad-row:opacity-100">
+          <p className="text-[13px] font-semibold leading-snug text-plum sm:text-sm">{layer.label}</p>
+          <p className="text-[11px] text-plum-400 sm:text-xs">{layer.description}</p>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const layersRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!layersRef.current || !sectionRef.current) return;
-
-    const layers = layersRef.current.querySelectorAll(".pad-layer");
-    const labels = layersRef.current.querySelectorAll(".pad-label");
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=600",
-        scrub: 1,
-        pin: false,
-      },
-    });
-
-    layers.forEach((layer, i) => {
-      tl.fromTo(
-        layer,
-        { y: 0, opacity: 0.7, scale: 0.95 },
-        { y: (i + 1) * 16, opacity: 1, scale: 1, duration: 0.5 },
-        i * 0.15
-      );
-    });
-
-    labels.forEach((label, i) => {
-      tl.fromTo(
-        label,
-        { x: -20, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.4 },
-        i * 0.15 + 0.1
-      );
-    });
-
-    return () => {
-      tl.kill();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, []);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const { scrollYProgress: layersScrollProgress } = useScroll({
+    target: layersRef,
+    offset: ["start end", "end start"],
+  });
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
 
   return (
     <section ref={sectionRef} className="relative min-h-[90vh] overflow-hidden bg-gradient-hero">
@@ -136,10 +184,10 @@ export function Hero() {
         />
       ))}
 
-      <div className="relative mx-auto flex max-w-7xl flex-col-reverse items-center gap-16 px-4 py-20 sm:px-6 md:flex-row md:gap-16 md:py-28 lg:px-8 lg:py-36">
+      <div className="relative mx-auto flex max-w-7xl flex-col-reverse items-center gap-10 px-4 pb-20 pt-10 sm:px-6 md:flex-row md:gap-16 md:pb-28 md:pt-14 lg:px-8 lg:pb-36 lg:pt-16">
         {/* Left content */}
         <div className="flex flex-1 flex-col items-center text-center md:items-start md:text-left">
-          <motion.span
+          {/* <motion.span
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -147,7 +195,7 @@ export function Hero() {
           >
             <Sparkles className="h-4 w-4 text-gold-400" />
             Trusted by 50,000+ women
-          </motion.span>
+          </motion.span> */}
 
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -173,18 +221,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-10 flex w-full max-w-xl flex-nowrap items-center justify-center gap-2 self-center sm:max-w-none sm:gap-4 md:self-start md:justify-start"
           >
             <Link
               href="/#pads"
-              className="btn-glow group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-primary-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary-500/35"
+              className="btn-glow group inline-flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary-500/35 sm:flex-initial sm:gap-2 sm:px-8 sm:py-4 sm:text-base"
             >
               Shop Now
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-1 sm:h-4 sm:w-4" />
             </Link>
             <Link
               href="/#why-choose"
-              className="inline-flex items-center gap-2 rounded-2xl border-2 border-primary-200/60 bg-white/80 px-8 py-4 text-base font-semibold text-plum shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-300 hover:text-primary-600 hover:shadow-md"
+              className="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-2xl border-2 border-primary-200/60 bg-white/80 px-3 py-3 text-center text-xs font-semibold leading-snug text-plum shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-300 hover:text-primary-600 hover:shadow-md sm:flex-initial sm:px-8 sm:py-4 sm:text-base"
             >
               Know Your Protection
             </Link>
@@ -195,19 +243,19 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-14 flex flex-wrap items-center gap-6 sm:gap-8"
+            className="mt-14 flex w-full flex-nowrap items-stretch justify-center gap-2 sm:flex-wrap sm:gap-6 md:gap-8 md:justify-start"
           >
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="flex items-center gap-3 rounded-2xl bg-white/70 px-5 py-3 shadow-sm backdrop-blur-sm"
+                className="flex min-w-0 max-w-[33%] flex-1 items-center gap-2 rounded-2xl bg-white/70 px-2.5 py-2.5 shadow-sm backdrop-blur-sm sm:max-w-none sm:flex-none sm:gap-3 sm:px-5 sm:py-3"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-50 to-accent-50">
-                  <stat.icon className="h-5 w-5 text-primary-500" strokeWidth={1.75} />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-50 to-accent-50 sm:h-11 sm:w-11">
+                  <stat.icon className="h-4 w-4 text-primary-500 sm:h-5 sm:w-5" strokeWidth={1.75} />
                 </div>
-                <div>
-                  <p className="text-lg font-bold text-plum">{stat.value}</p>
-                  <p className="text-xs text-plum-400">{stat.label}</p>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold leading-tight text-plum sm:text-lg">{stat.value}</p>
+                  <p className="text-[10px] leading-tight text-plum-400 sm:text-xs">{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -216,17 +264,37 @@ export function Hero() {
 
         {/* Right visual — Interactive Pad Layers */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={
+            prefersReducedMotion
+              ? { opacity: 1, scale: 1 }
+              : { opacity: 0, scale: 0.96 }
+          }
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.2 }}
+          transition={{
+            duration: prefersReducedMotion ? 0 : 0.75,
+            delay: prefersReducedMotion ? 0 : 0.15,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="relative flex flex-1 items-center justify-center"
         >
           <div ref={layersRef} className="relative w-full max-w-lg">
             {/* Ambient glow behind the pad */}
-            <div className="absolute inset-0 translate-y-4 rounded-[3rem] bg-gradient-to-br from-primary-300/30 via-accent-200/20 to-gold-200/30 blur-3xl" />
+            <div className="pointer-events-none absolute inset-0 translate-y-4 rounded-[3rem] bg-gradient-to-br from-primary-300/30 via-accent-200/20 to-gold-200/30 blur-3xl" />
 
             {/* Main pad visual with layers */}
-            <div className="relative rounded-[2.5rem] border border-white/60 bg-white/90 p-8 shadow-premium backdrop-blur-sm">
+            <motion.div
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 0, y: 24 }
+              }
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.65,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative rounded-[2rem] border border-white/60 bg-white/90 p-5 shadow-premium backdrop-blur-sm sm:rounded-[2.5rem] sm:p-8"
+            >
               <div className="mb-4 text-center">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-gold-100 px-3 py-1 text-xs font-semibold text-gold-600">
                   <Sparkles className="h-3 w-3" />
@@ -234,70 +302,133 @@ export function Hero() {
                 </span>
               </div>
 
-              {/* Stacked pad layers */}
-              <div className="relative mx-auto flex flex-col gap-3">
+              {/* Stacked pad layers — on lg+ pointer devices: text fades in on row hover; below lg text stays visible for touch */}
+              <div className="relative mx-auto flex flex-col gap-2.5 sm:gap-3">
                 {padLayers.map((layer, i) => (
-                  <div key={i} className="pad-layer relative">
-                    <div
-                      className={`flex items-center gap-4 rounded-2xl bg-gradient-to-r ${layer.color} px-5 py-4 shadow-sm transition-all duration-500`}
-                    >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/80 shadow-sm">
-                        <layer.icon className="h-5 w-5 text-primary-500" />
-                      </div>
-                      <div className="pad-label">
-                        <p className="text-sm font-semibold text-plum">{layer.label}</p>
-                        <p className="text-xs text-plum-400">{layer.description}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <PadLayerRow
+                    key={layer.label}
+                    layer={layer}
+                    index={i}
+                    scrollYProgress={layersScrollProgress}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
                 ))}
               </div>
 
-              {/* Scroll hint */}
+              {/* Scroll hint — fades as you leave the hero; motion reduced = static */}
               <motion.div
-                className="mt-6 flex items-center justify-center gap-2 text-xs text-plum-400"
-                animate={{ y: [0, 4, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                className="mt-5 flex items-center justify-center gap-2 text-xs text-plum-400 sm:mt-6"
+                style={{ opacity: prefersReducedMotion ? 1 : scrollHintOpacity }}
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        y: [0, 3, 0],
+                      }
+                }
+                transition={{
+                  duration: 2.8,
+                  repeat: prefersReducedMotion ? 0 : Infinity,
+                  ease: "easeInOut",
+                }}
+                aria-hidden="true"
               >
-                <span>Scroll to explore layers</span>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <span>Scroll to see layers stack</span>
+                <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
               </motion.div>
-            </div>
+            </motion.div>
 
-            {/* Floating badges around the pad */}
+            {/* Floating badges — inset on small screens so they stay in view */}
             <motion.div
-              className="absolute -left-4 top-8 rounded-2xl bg-white px-4 py-3 shadow-card-soft"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute left-1 top-6 z-10 sm:-left-4 sm:top-8"
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1 }
+                  : { opacity: 0, scale: 0.92 }
+              }
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.5,
+                delay: prefersReducedMotion ? 0 : 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-primary-500" />
-                <span className="text-xs font-semibold text-plum">Rash-Free</span>
-              </div>
+              <motion.div
+                className="rounded-2xl bg-white px-3 py-2.5 shadow-card-soft sm:px-4 sm:py-3"
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, -6, 0] }
+                }
+                transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Shield className="h-4 w-4 shrink-0 text-primary-500 sm:h-5 sm:w-5" />
+                  <span className="text-[11px] font-semibold text-plum sm:text-xs">Rash-Free</span>
+                </div>
+              </motion.div>
             </motion.div>
 
             <motion.div
-              className="absolute -right-4 bottom-20 rounded-2xl bg-white px-4 py-3 shadow-card-soft"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="absolute bottom-16 right-1 z-10 sm:-right-4 sm:bottom-20"
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1 }
+                  : { opacity: 0, scale: 0.92 }
+              }
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.5,
+                delay: prefersReducedMotion ? 0 : 0.35,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex items-center gap-2">
-                <Heart className="h-5 w-5 text-primary-400" fill="currentColor" />
-                <span className="text-xs font-semibold text-plum">Eco-Safe</span>
-              </div>
+              <motion.div
+                className="rounded-2xl bg-white px-3 py-2.5 shadow-card-soft sm:px-4 sm:py-3"
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, -8, 0] }
+                }
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              >
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Heart className="h-4 w-4 shrink-0 text-primary-400 sm:h-5 sm:w-5" fill="currentColor" />
+                  <span className="text-[11px] font-semibold text-plum sm:text-xs">Eco-Safe</span>
+                </div>
+              </motion.div>
             </motion.div>
 
             <motion.div
-              className="absolute -right-2 top-1/3 rounded-2xl bg-white px-4 py-3 shadow-card-soft"
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute right-2 top-[28%] z-10 sm:-right-2 sm:top-1/3"
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1 }
+                  : { opacity: 0, scale: 0.92 }
+              }
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: prefersReducedMotion ? 0 : 0.5,
+                delay: prefersReducedMotion ? 0 : 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
-              <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 text-gold-400" fill="currentColor" />
-                <span className="text-xs font-semibold text-plum">4.9★</span>
-              </div>
+              <motion.div
+                className="rounded-2xl bg-white px-3 py-2.5 shadow-card-soft sm:px-4 sm:py-3"
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : { y: [0, -5, 0] }
+                }
+                transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+              >
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Star className="h-4 w-4 shrink-0 text-gold-400 sm:h-5 sm:w-5" fill="currentColor" />
+                  <span className="text-[11px] font-semibold text-plum sm:text-xs">4.9★</span>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>

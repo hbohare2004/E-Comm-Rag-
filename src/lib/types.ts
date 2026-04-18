@@ -30,4 +30,27 @@ export interface UserProfile {
   id: string;
   email: string;
   role: "admin" | "user";
+  full_name: string;
+  gender: string;
+  mobile: string;
+  address: string;
+  avatar_url: string;
+  created_at: string;
+}
+
+export interface Order {
+  id: string;
+  user_id: string;
+  items: OrderItem[];
+  total_amount: number;
+  status: "pending" | "completed" | "cancelled";
+  stripe_session_id: string | null;
+  created_at: string;
+}
+
+export interface OrderItem {
+  name: string;
+  price: number;
+  quantity: number;
+  image_url?: string;
 }

@@ -64,7 +64,7 @@ export function ProductCard({ product }: { product: Product }) {
             alt={product.name}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            sizes="(max-width: 639px) 50vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
@@ -98,9 +98,9 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute inset-0 bg-gradient-to-t from-plum/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-3 sm:p-5">
         <Link href={`/product/${product.id}`}>
-          <h3 className="line-clamp-2 text-[15px] font-semibold leading-snug text-plum transition-colors duration-300 group-hover:text-primary-500">
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-plum sm:text-[15px] transition-colors duration-300 group-hover:text-primary-500">
             {product.name}
           </h3>
         </Link>
@@ -135,9 +135,9 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Price + Cart */}
-        <div className="mt-auto flex items-center justify-between pt-4">
-          <div>
-            <span className="text-xl font-bold text-plum">
+        <div className="mt-auto flex items-center justify-between gap-2 pt-3 sm:pt-4">
+          <div className="min-w-0">
+            <span className="text-base font-bold text-plum sm:text-xl">
               ₹{product.price.toFixed(0)}
             </span>
             <span className="ml-1 text-xs text-plum-400">.00</span>
@@ -146,7 +146,7 @@ export function ProductCard({ product }: { product: Product }) {
             type="button"
             whileTap={{ scale: 0.85 }}
             onClick={handleAddToCart}
-            className={`relative flex h-11 w-11 items-center justify-center rounded-2xl shadow-lg transition-all duration-300 ${
+            className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-lg transition-all duration-300 sm:h-11 sm:w-11 ${
               added
                 ? "bg-emerald-500 shadow-emerald-500/25"
                 : "bg-gradient-to-br from-primary-500 to-primary-600 shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/35"

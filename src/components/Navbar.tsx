@@ -1,11 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Heart, ShoppingCart, Menu, X, User, Sparkles } from "lucide-react";
+import {
+  Heart,
+  ShoppingCart,
+  Menu,
+  X,
+  User,
+  Sparkles,
+  Package,
+  LogOut,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -15,8 +26,9 @@ const navLinks = [
 ] as const;
 
 export function Navbar() {
+  const router = useRouter();
   const { totalItems } = useCart();
-  const { user, userRole, loading, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -82,29 +94,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           {!loading && user ? (
-            <div className="hidden items-center gap-2 sm:flex lg:gap-3">
-              <span
-                className="max-w-[140px] truncate text-xs text-plum-400 lg:max-w-[200px] lg:text-sm"
-                title={user.email ?? undefined}
-              >
-                {user.email}
-              </span>
-              {userRole === "admin" && (
-                <Link
-                  href="/admin"
-                  className="rounded-xl bg-gradient-to-r from-primary-50 to-accent-50 px-3 py-2 text-sm font-semibold text-primary-600 transition-colors duration-200 hover:from-primary-100 hover:to-accent-100"
-                >
-                  Admin
-                </Link>
-              )}
-              <button
-                type="button"
-                onClick={() => void signOut()}
-                className="rounded-xl border border-primary-100 px-3 py-2 text-sm font-medium text-plum-400 transition-all duration-200 hover:border-primary-300 hover:bg-primary-50 hover:text-primary-600"
-              >
-                Sign Out
-              </button>
-            </div>
+            <ProfileDropdown />
           ) : !loading ? (
             <>
               <Link
@@ -124,7 +114,7 @@ export function Navbar() {
             </>
           ) : (
             <div
-              className="hidden h-9 w-24 animate-pulse-soft rounded-xl bg-primary-50"
+              className="hidden h-9 w-10 animate-pulse-soft rounded-xl bg-primary-50 sm:block"
               aria-hidden
             />
           )}
@@ -193,28 +183,38 @@ export function Navbar() {
               <div className="my-2 h-px bg-gradient-to-r from-transparent via-primary-200 to-transparent" />
               {!loading && user ? (
                 <>
-                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-plum-400">
-                    <User className="h-4 w-4 shrink-0 text-primary-500" />
-                    <span className="truncate">{user.email}</span>
-                  </div>
-                  {userRole === "admin" && (
-                    <Link
-                      href="/admin"
-                      onClick={closeMobile}
-                      className="rounded-2xl px-4 py-3 text-base font-semibold text-primary-500 transition-colors duration-200 hover:bg-primary-50"
-                    >
-                      Admin
-                    </Link>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeMobile();
+                      router.push("/profile");
+                    }}
+                    className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-base font-medium text-plum transition-colors duration-200 hover:bg-primary-50 hover:text-primary-500"
+                  >
+                    <User className="h-5 w-5 text-primary-500" />
+                    My Profile
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      closeMobile();
+                      router.push("/profile/orders");
+                    }}
+                    className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-base font-medium text-plum transition-colors duration-200 hover:bg-primary-50 hover:text-primary-500"
+                  >
+                    <Package className="h-5 w-5 text-primary-500" />
+                    My Orders
+                  </button>
                   <button
                     type="button"
                     onClick={() => {
                       closeMobile();
                       void signOut();
                     }}
-                    className="rounded-2xl px-4 py-3 text-left text-base font-medium text-plum transition-colors duration-200 hover:bg-primary-50 hover:text-primary-500"
+                    className="flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-base font-medium text-plum transition-colors duration-200 hover:bg-red-50 hover:text-red-600"
                   >
-                    Sign Out
+                    <LogOut className="h-5 w-5 text-red-400" />
+                    Logout
                   </button>
                 </>
               ) : !loading ? (

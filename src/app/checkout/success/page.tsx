@@ -1,16 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle, ShoppingBag, ArrowRight } from "lucide-react";
-import { useEffect } from "react";
+import { CheckCircle, ShoppingBag, ArrowRight, Package } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { createClient } from "@/utils/supabase/client";
+import type { OrderItem } from "@/lib/types";
 
 export default function CheckoutSuccessPage() {
-  const { clearCart } = useCart();
+  const { items, clearCart, totalPrice } = useCart();
+  const { user } = useAuth();
+  const savedRef = useRef(false);
 
   useEffect(() => {
-    clearCart();
-  }, [clearCart]);
+    if (savedRef.current || !user || items.length === 0) {
+      if (items.length > 0) clearCart();
+      return;
+    }
+    savedRef.current = true;
+
+    const orderItems: OrderItem[] = items.map((item) => ({
+      name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+      image_url: item.product.thumbnail_url || item.product.image_url,
+    }));
+
+    const supabase = createClient();
+    void supabase
+      .from("orders")
+      .insert({
+        user_id: user.id,
+        items: orderItems,
+        total_amount: totalPrice,
+        status: "completed",
+      })
+      .then(() => clearCart());
+  }, [user, items, clearCart, totalPrice]);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-emerald-50/50 to-white">
@@ -38,11 +65,11 @@ export default function CheckoutSuccessPage() {
             Continue Shopping
           </Link>
           <Link
-            href="/"
+            href="/profile/orders"
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-primary-300 hover:text-primary-600"
           >
-            Home
-            <ArrowRight className="h-4 w-4" />
+            <Package className="h-4 w-4" />
+            View Orders
           </Link>
         </div>
       </div>

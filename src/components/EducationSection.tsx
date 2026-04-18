@@ -69,19 +69,19 @@ export function EducationSection() {
         </FadeIn>
 
         {/* Topics grid */}
-        <StaggerContainer className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerContainer className="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {topics.map((topic) => (
             <StaggerItem key={topic.title}>
-              <div className="premium-card group rounded-3xl p-7">
+              <div className="premium-card group rounded-3xl p-5 sm:p-7">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: -5 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className={`flex h-14 w-14 items-center justify-center rounded-2xl ${topic.bg}`}
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl sm:h-14 sm:w-14 ${topic.bg}`}
                 >
-                  <topic.icon className="h-7 w-7 text-primary-500" strokeWidth={1.5} />
+                  <topic.icon className="h-6 w-6 text-primary-500 sm:h-7 sm:w-7" strokeWidth={1.5} />
                 </motion.div>
-                <h3 className="mt-5 text-base font-bold text-plum">{topic.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-plum-400">{topic.description}</p>
+                <h3 className="mt-4 text-sm font-bold leading-snug text-plum sm:mt-5 sm:text-base">{topic.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-plum-400 sm:text-sm">{topic.description}</p>
               </div>
             </StaggerItem>
           ))}

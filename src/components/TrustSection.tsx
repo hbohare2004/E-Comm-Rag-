@@ -39,12 +39,12 @@ const badges = [
   },
 ];
 
-const features = [
-  { icon: Droplets, label: "3x Absorption", desc: "Advanced core technology" },
-  { icon: Feather, label: "Ultra Soft", desc: "Cotton-like comfort" },
-  { icon: Wind, label: "Breathable", desc: "All-day freshness" },
-  { icon: Sparkles, label: "Rash-Free", desc: "Hypoallergenic formula" },
-];
+// const features = [
+//   { icon: Droplets, label: "3x Absorption", desc: "Advanced core technology" },
+//   { icon: Feather, label: "Ultra Soft", desc: "Cotton-like comfort" },
+//   { icon: Wind, label: "Breathable", desc: "All-day freshness" },
+//   { icon: Sparkles, label: "Rash-Free", desc: "Hypoallergenic formula" },
+// ];
 
 export function TrustSection() {
   return (
@@ -73,26 +73,26 @@ export function TrustSection() {
         </FadeIn>
 
         {/* Trust badges grid */}
-        <StaggerContainer className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerContainer className="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {badges.map((badge) => (
             <StaggerItem key={badge.title}>
-              <div className="premium-card group relative rounded-3xl p-8 text-center">
+              <div className="premium-card group relative rounded-3xl p-5 text-left sm:p-8">
                 <div className={`absolute left-0 right-0 top-0 h-1 rounded-t-3xl bg-gradient-to-r ${badge.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
 
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl ${badge.bg} shadow-sm transition-shadow duration-300 group-hover:shadow-md`}
+                  className={`mx-auto flex h-14 w-14 items-center justify-center rounded-2xl sm:h-16 sm:w-16 ${badge.bg} shadow-sm transition-shadow duration-300 group-hover:shadow-md`}
                 >
                   <badge.icon
-                    className={`h-8 w-8 ${badge.iconColor}`}
+                    className={`h-7 w-7 sm:h-8 sm:w-8 ${badge.iconColor}`}
                     strokeWidth={1.75}
                   />
                 </motion.div>
-                <h3 className="mt-6 text-lg font-bold text-plum">
+                <h3 className="mt-4 text-sm font-bold leading-snug text-plum sm:mt-6 sm:text-lg">
                   {badge.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-plum-400">
+                <p className="mt-2 text-xs leading-relaxed text-plum-400 sm:text-sm">
                   {badge.description}
                 </p>
               </div>
@@ -101,7 +101,7 @@ export function TrustSection() {
         </StaggerContainer>
 
         {/* Feature icons row */}
-        <FadeIn delay={0.3}>
+        {/* <FadeIn delay={0.3}>
           <div className="mt-20 rounded-3xl border border-primary-100/30 bg-white/80 p-8 shadow-sm backdrop-blur-sm sm:p-10">
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
               {features.map((feat) => (
@@ -119,7 +119,7 @@ export function TrustSection() {
               ))}
             </div>
           </div>
-        </FadeIn>
+        </FadeIn> */}
       </div>
     </section>
   );

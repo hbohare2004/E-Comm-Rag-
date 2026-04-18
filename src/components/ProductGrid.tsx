@@ -46,9 +46,9 @@ export function ProductGrid({
           </div>
         </FadeIn>
 
-        <StaggerContainer className="mt-14 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <StaggerContainer className="mt-14 grid grid-cols-2 gap-3 gap-y-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
-            <StaggerItem key={product.id}>
+            <StaggerItem key={product.id} className="min-w-0">
               <ProductCard product={product} />
             </StaggerItem>
           ))}
