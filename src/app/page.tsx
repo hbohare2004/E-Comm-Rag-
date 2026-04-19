@@ -5,10 +5,30 @@ import { ReviewSection } from "@/components/ReviewSection";
 import { EducationSection } from "@/components/EducationSection";
 import { CtaBanner } from "@/components/CtaBanner";
 import { sampleProducts } from "@/lib/sample-data";
+import { supabase } from "@/lib/supabase";
+import type { Product } from "@/lib/types";
 
-export default function Home() {
-  const pads = sampleProducts.filter((p) => p.category === "pads");
-  const diapers = sampleProducts.filter((p) => p.category === "diapers");
+export const dynamic = "force-dynamic";
+
+async function getProducts(): Promise<Product[]> {
+  if (!supabase) return sampleProducts;
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error || !data || data.length === 0) {
+    return sampleProducts;
+  }
+
+  return data as Product[];
+}
+
+export default async function Home() {
+  const products = await getProducts();
+  const pads = products.filter((p) => p.category === "pads");
+  const diapers = products.filter((p) => p.category === "diapers");
 
   return (
     <>

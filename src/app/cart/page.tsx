@@ -42,7 +42,7 @@ export default function CartPage() {
   const handleCheckout = useCallback(async () => {
     setCheckoutError(null);
     if (!user) {
-      router.push("/auth/login");
+      router.push(`/auth/login?next=${encodeURIComponent("/cart")}`);
       return;
     }
     setCheckoutLoading(true);

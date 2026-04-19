@@ -69,7 +69,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      router.push("/auth/login");
+      router.replace(`/auth/login?next=${encodeURIComponent("/profile/orders")}`);
       return;
     }
     if (user) void loadOrders();

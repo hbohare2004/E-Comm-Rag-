@@ -136,13 +136,19 @@ function ProductsPanel() {
       return;
     }
 
+    const parsedPrice = parseFloat(form.price);
+    if (!Number.isFinite(parsedPrice) || parsedPrice <= 0) {
+      setError("Enter a valid price.");
+      return;
+    }
+
     setSaving(true);
     setError(null);
 
     const payload = {
       name: form.name,
       description: form.description,
-      price: parseFloat(form.price),
+      price: parsedPrice,
       category: form.category,
       image_url: form.image_url,
       thumbnail_url: form.thumbnail_url,
@@ -150,22 +156,27 @@ function ProductsPanel() {
 
     if (!supabase) { setError("Supabase not configured"); setSaving(false); return; }
 
+    let saveError: string | null = null;
+
     if (editingId) {
       const { error: err } = await supabase
         .from("products")
         .update(payload)
         .eq("id", editingId);
-      if (err) setError(err.message);
+      if (err) saveError = err.message;
     } else {
       const { error: err } = await supabase.from("products").insert(payload);
-      if (err) setError(err.message);
+      if (err) saveError = err.message;
     }
 
     setSaving(false);
-    if (!error) {
-      setShowForm(false);
-      fetchProducts();
+    if (saveError) {
+      setError(saveError);
+      return;
     }
+
+    setShowForm(false);
+    await fetchProducts();
   }
 
   async function handleDelete(id: string) {

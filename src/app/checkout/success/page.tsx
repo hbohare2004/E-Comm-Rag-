@@ -10,15 +10,16 @@ import type { OrderItem } from "@/lib/types";
 
 export default function CheckoutSuccessPage() {
   const { items, clearCart, totalPrice } = useCart();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const savedRef = useRef(false);
 
   useEffect(() => {
-    if (savedRef.current || !user || items.length === 0) {
-      if (items.length > 0) clearCart();
+    if (authLoading || savedRef.current || !user || items.length === 0) {
       return;
     }
+
     savedRef.current = true;
+    let cancelled = false;
 
     const orderItems: OrderItem[] = items.map((item) => ({
       name: item.product.name,
@@ -28,16 +29,45 @@ export default function CheckoutSuccessPage() {
     }));
 
     const supabase = createClient();
-    void supabase
-      .from("orders")
-      .insert({
+    const sessionId =
+      typeof window === "undefined"
+        ? null
+        : new URLSearchParams(window.location.search).get("session_id");
+
+    void (async () => {
+      if (sessionId) {
+        const { data: existingOrder } = await supabase
+          .from("orders")
+          .select("id")
+          .eq("stripe_session_id", sessionId)
+          .maybeSingle();
+
+        if (existingOrder) {
+          if (!cancelled) clearCart();
+          return;
+        }
+      }
+
+      const { error } = await supabase.from("orders").insert({
         user_id: user.id,
         items: orderItems,
         total_amount: totalPrice,
         status: "completed",
-      })
-      .then(() => clearCart());
-  }, [user, items, clearCart, totalPrice]);
+        stripe_session_id: sessionId,
+      });
+
+      if (error) {
+        savedRef.current = false;
+        return;
+      }
+
+      if (!cancelled) clearCart();
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authLoading, user, items, clearCart, totalPrice]);
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-emerald-50/50 to-white">

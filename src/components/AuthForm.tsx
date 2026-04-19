@@ -46,9 +46,14 @@ function AppleIcon({ className }: { className?: string }) {
 type Props = {
   variant: "login" | "signup";
   registeredBanner?: boolean;
+  redirectTo?: string;
 };
 
-export function AuthForm({ variant, registeredBanner }: Props) {
+function normalizeRedirectTarget(redirectTo?: string) {
+  return redirectTo && redirectTo.startsWith("/") ? redirectTo : "/";
+}
+
+export function AuthForm({ variant, registeredBanner, redirectTo }: Props) {
   const router = useRouter();
   const {
     signIn,
@@ -71,6 +76,15 @@ export function AuthForm({ variant, registeredBanner }: Props) {
   const [showEmail, setShowEmail] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
+  const redirectTarget = normalizeRedirectTarget(redirectTo);
+  const loginHref =
+    redirectTarget === "/"
+      ? "/auth/login"
+      : `/auth/login?next=${encodeURIComponent(redirectTarget)}`;
+  const signupHref =
+    redirectTarget === "/"
+      ? "/auth/signup"
+      : `/auth/signup?next=${encodeURIComponent(redirectTarget)}`;
 
   const title = variant === "login" ? "Welcome Back" : "Join PureCare";
   const subtitle =
@@ -112,7 +126,7 @@ export function AuthForm({ variant, registeredBanner }: Props) {
     setPhoneSubmitting(true);
     try {
       await verifyPhoneOtp(phone, code);
-      router.push("/");
+      router.replace(redirectTarget);
       router.refresh();
     } catch (err) {
       setError(
@@ -127,7 +141,7 @@ export function AuthForm({ variant, registeredBanner }: Props) {
     setError(null);
     setOauthLoading(provider);
     try {
-      await signInWithOAuth(provider);
+      await signInWithOAuth(provider, redirectTarget);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Try again.",
@@ -147,12 +161,16 @@ export function AuthForm({ variant, registeredBanner }: Props) {
     try {
       if (variant === "login") {
         await signIn(email, password);
-        router.push("/");
+        router.replace(redirectTarget);
+        router.refresh();
       } else {
-        await signUp(email, password);
-        router.push("/auth/login?registered=1");
+        await signUp(email, password, redirectTarget);
+        const loginParams = new URLSearchParams({ registered: "1" });
+        if (redirectTarget !== "/") {
+          loginParams.set("next", redirectTarget);
+        }
+        router.push(`/auth/login?${loginParams.toString()}`);
       }
-      router.refresh();
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Try again.",
@@ -409,7 +427,7 @@ export function AuthForm({ variant, registeredBanner }: Props) {
               <>
                 Don&apos;t have an account?{" "}
                 <Link
-                  href="/auth/signup"
+                  href={signupHref}
                   className="font-semibold text-primary-500 underline-offset-4 transition hover:text-primary-600 hover:underline"
                 >
                   Create one
@@ -419,7 +437,7 @@ export function AuthForm({ variant, registeredBanner }: Props) {
               <>
                 Already have an account?{" "}
                 <Link
-                  href="/auth/login"
+                  href={loginHref}
                   className="font-semibold text-primary-500 underline-offset-4 transition hover:text-primary-600 hover:underline"
                 >
                   Sign in
