@@ -40,7 +40,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
     
     // Fast path: load from localStorage
     const stored = localStorage.getItem(`avatar-${user.id}`);
-    let applied = applyAvatar(stored);
+    const applied = applyAvatar(stored);
 
     // Fallback to user_metadata (like Google sign in) if missing
     if (!applied && user.user_metadata?.avatar_url) {

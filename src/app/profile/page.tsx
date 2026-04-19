@@ -157,7 +157,7 @@ export default function ProfilePage() {
           }
         }
         
-        let applied = processAvatar(data.avatar_url);
+        const applied = processAvatar(data.avatar_url);
         if (!applied) processAvatar(user.user_metadata?.avatar_url);
       } else {
         setEmail(user.email || "");
