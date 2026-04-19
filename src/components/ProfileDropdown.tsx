@@ -108,6 +108,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
             alt=""
             className="h-7 w-7 rounded-full object-cover"
             onError={() => setAvatarImgError(true)}
+            referrerPolicy="no-referrer"
           />
         ) : avatarSvg ? (
           <div
@@ -131,8 +132,8 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
             <div className="border-b border-primary-100/30 px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary-100 to-primary-200">
-                  {avatarImgUrl ? (
-                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" />
+                  {avatarImgUrl && !avatarImgError ? (
+                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                   ) : avatarSvg ? (
                     <div
                       className="h-10 w-10"

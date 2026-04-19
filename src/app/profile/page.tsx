@@ -275,7 +275,7 @@ export default function ProfilePage() {
               >
                 <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white/20 ring-4 ring-white/30 transition-transform duration-200 group-hover:scale-105 sm:h-24 sm:w-24">
                   {avatarImgUrl ? (
-                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" />
+                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                   ) : avatarSvg ? (
                     <div
                       className="h-full w-full"
