@@ -16,10 +16,12 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const [avatarSvg, setAvatarSvg] = useState<string | null>(null);
   const [avatarImgUrl, setAvatarImgUrl] = useState<string | null>(null);
+  const [avatarImgError, setAvatarImgError] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (!user) return;
+    setAvatarImgError(false);
 
     function applyAvatar(avatarId: string | null | undefined): boolean {
       if (!avatarId) return false;
@@ -95,19 +97,24 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-plum-400 transition-all duration-300 hover:bg-primary-50 hover:text-primary-500 overflow-hidden"
+        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary-200/80 bg-white/90 shadow-sm ring-1 ring-primary-100/60 transition-all duration-300 hover:border-primary-300 hover:bg-white hover:shadow-md hover:ring-primary-200/80"
         aria-label="Profile menu"
         aria-expanded={open}
       >
-        {avatarImgUrl ? (
-          <img src={avatarImgUrl} alt="Avatar" className="h-7 w-7 rounded-full object-cover" />
+        {avatarImgUrl && !avatarImgError ? (
+          <img
+            src={avatarImgUrl}
+            alt=""
+            className="h-7 w-7 rounded-full object-cover"
+            onError={() => setAvatarImgError(true)}
+          />
         ) : avatarSvg ? (
           <div
-            className="h-7 w-7 overflow-hidden rounded-full"
+            className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-primary-200/50"
             dangerouslySetInnerHTML={{ __html: avatarSvg }}
           />
         ) : (
-          <User className="h-5 w-5" strokeWidth={2} />
+          <User className="h-5 w-5 text-primary-600" strokeWidth={2} aria-hidden />
         )}
       </button>
 
