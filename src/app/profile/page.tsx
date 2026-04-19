@@ -106,6 +106,7 @@ export default function ProfilePage() {
   });
   const [avatarId, setAvatarId] = useState("");
   const [avatarSvg, setAvatarSvg] = useState("");
+  const [avatarImgUrl, setAvatarImgUrl] = useState("");
   const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
   const [stateSearch, setStateSearch] = useState("");
   const stateRef = useRef<HTMLDivElement>(null);
@@ -119,6 +120,22 @@ export default function ProfilePage() {
         .select("full_name, gender, email, mobile, address, avatar_url")
         .eq("id", user.id)
         .single();
+      
+      const processAvatar = (url: string | null | undefined) => {
+        if (!url) return false;
+        setAvatarId(url);
+        const match = CARTOON_AVATARS.find((a) => a.id === url);
+        if (match) {
+          setAvatarSvg(match.svg);
+          setAvatarImgUrl("");
+          return true;
+        } else if (url.startsWith("http") || url.startsWith("data:")) {
+          setAvatarImgUrl(url);
+          setAvatarSvg("");
+          return true;
+        }
+        return false;
+      };
 
       if (data) {
         setFullName(data.full_name || user.user_metadata?.full_name || "");
@@ -139,14 +156,13 @@ export default function ProfilePage() {
             setAddress((prev) => ({ ...prev, street: data.address }));
           }
         }
-        if (data.avatar_url) {
-          setAvatarId(data.avatar_url);
-          const match = CARTOON_AVATARS.find((a) => a.id === data.avatar_url);
-          if (match) setAvatarSvg(match.svg);
-        }
+        
+        let applied = processAvatar(data.avatar_url);
+        if (!applied) processAvatar(user.user_metadata?.avatar_url);
       } else {
         setEmail(user.email || "");
         setFullName(user.user_metadata?.full_name || "");
+        processAvatar(user.user_metadata?.avatar_url);
       }
     } catch {
       setEmail(user.email || "");
@@ -258,7 +274,9 @@ export default function ProfilePage() {
                 className="group relative"
               >
                 <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white/20 ring-4 ring-white/30 transition-transform duration-200 group-hover:scale-105 sm:h-24 sm:w-24">
-                  {avatarSvg ? (
+                  {avatarImgUrl ? (
+                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" />
+                  ) : avatarSvg ? (
                     <div
                       className="h-full w-full"
                       dangerouslySetInnerHTML={{ __html: avatarSvg }}

@@ -15,16 +15,34 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const [avatarSvg, setAvatarSvg] = useState<string | null>(null);
+  const [avatarImgUrl, setAvatarImgUrl] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     if (!user) return;
+
+    function applyAvatar(avatarId: string | null | undefined): boolean {
+      if (!avatarId) return false;
+      const match = CARTOON_AVATARS.find((a) => a.id === avatarId);
+      if (match) {
+        setAvatarSvg(match.svg);
+        setAvatarImgUrl(null);
+        return true;
+      } else if (avatarId.startsWith("http") || avatarId.startsWith("data:")) {
+        setAvatarImgUrl(avatarId);
+        setAvatarSvg(null);
+        return true;
+      }
+      return false;
+    }
     
     // Fast path: load from localStorage
     const stored = localStorage.getItem(`avatar-${user.id}`);
-    if (stored) {
-      const match = CARTOON_AVATARS.find((a) => a.id === stored);
-      if (match) setAvatarSvg(match.svg);
+    let applied = applyAvatar(stored);
+
+    // Fallback to user_metadata (like Google sign in) if missing
+    if (!applied && user.user_metadata?.avatar_url) {
+      applyAvatar(user.user_metadata.avatar_url);
     }
 
     // Async path: verify or fetch from DB
@@ -38,8 +56,10 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
 
       if (data?.avatar_url) {
         localStorage.setItem(`avatar-${user.id}`, data.avatar_url);
-        const match = CARTOON_AVATARS.find((a) => a.id === data.avatar_url);
-        if (match) setAvatarSvg(match.svg);
+        applyAvatar(data.avatar_url);
+      } else if (user.user_metadata?.avatar_url) {
+        // If profile doesn't have an avatar yet but metadata does, save it locally (so it's fast next time)
+        localStorage.setItem(`avatar-${user.id}`, user.user_metadata.avatar_url);
       }
     }
     
@@ -75,11 +95,13 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-plum-400 transition-all duration-300 hover:bg-primary-50 hover:text-primary-500"
+        className="flex h-10 w-10 items-center justify-center rounded-xl text-plum-400 transition-all duration-300 hover:bg-primary-50 hover:text-primary-500 overflow-hidden"
         aria-label="Profile menu"
         aria-expanded={open}
       >
-        {avatarSvg ? (
+        {avatarImgUrl ? (
+          <img src={avatarImgUrl} alt="Avatar" className="h-7 w-7 rounded-full object-cover" />
+        ) : avatarSvg ? (
           <div
             className="h-7 w-7 overflow-hidden rounded-full"
             dangerouslySetInnerHTML={{ __html: avatarSvg }}
@@ -101,7 +123,9 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
             <div className="border-b border-primary-100/30 px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary-100 to-primary-200">
-                  {avatarSvg ? (
+                  {avatarImgUrl ? (
+                    <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" />
+                  ) : avatarSvg ? (
                     <div
                       className="h-10 w-10"
                       dangerouslySetInnerHTML={{ __html: avatarSvg }}
