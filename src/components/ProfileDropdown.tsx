@@ -49,6 +49,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
 
     // Async path: verify or fetch from DB
     async function fetchAvatar() {
+      if (!user) return;
       const supabase = createClient();
       const { data } = await supabase
         .from("profiles")
