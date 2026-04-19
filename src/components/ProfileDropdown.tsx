@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { CARTOON_AVATARS } from "@/lib/avatars";
 
 import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
   const { user, userRole, signOut } = useAuth();
@@ -18,11 +19,31 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
 
   useEffect(() => {
     if (!user) return;
+    
+    // Fast path: load from localStorage
     const stored = localStorage.getItem(`avatar-${user.id}`);
     if (stored) {
       const match = CARTOON_AVATARS.find((a) => a.id === stored);
       if (match) setAvatarSvg(match.svg);
     }
+
+    // Async path: verify or fetch from DB
+    async function fetchAvatar() {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("profiles")
+        .select("avatar_url")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (data?.avatar_url) {
+        localStorage.setItem(`avatar-${user.id}`, data.avatar_url);
+        const match = CARTOON_AVATARS.find((a) => a.id === data.avatar_url);
+        if (match) setAvatarSvg(match.svg);
+      }
+    }
+    
+    void fetchAvatar();
   }, [user]);
 
   useEffect(() => {
