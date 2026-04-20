@@ -47,7 +47,7 @@ export default async function Home() {
         id="diapers"
         variant="alt"
       />
-      <EducationSection />
+      {/* <EducationSection /> */}
       <CtaBanner />
       <ReviewSection />
     </>

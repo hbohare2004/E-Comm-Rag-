@@ -53,7 +53,7 @@ export function EducationSection() {
       <div className="absolute -right-60 bottom-0 h-[500px] w-[500px] rounded-full bg-accent-100/15 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <FadeIn>
+        {/* <FadeIn>
           <div className="text-center">
             <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-700">
               <BookOpen className="h-3.5 w-3.5" />
@@ -66,10 +66,10 @@ export function EducationSection() {
               Knowledge is power. Learn how to make the best choices for your body and well-being.
             </p>
           </div>
-        </FadeIn>
+        </FadeIn> */}
 
         {/* Topics grid */}
-        <StaggerContainer className="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        {/* <StaggerContainer className="mt-16 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {topics.map((topic) => (
             <StaggerItem key={topic.title}>
               <div className="premium-card group rounded-3xl p-5 sm:p-7">
@@ -85,10 +85,10 @@ export function EducationSection() {
               </div>
             </StaggerItem>
           ))}
-        </StaggerContainer>
+        </StaggerContainer> */}
 
         {/* Infographic: How a pad works */}
-        <FadeIn delay={0.2}>
+        {/* <FadeIn delay={0.2}>
           <div className="mt-20 rounded-3xl bg-gradient-to-br from-primary-50 via-white to-accent-50 p-8 sm:p-12">
             <div className="text-center">
               <h3 className="font-display text-2xl font-bold text-plum sm:text-3xl">
@@ -109,7 +109,7 @@ export function EducationSection() {
                   transition={{ delay: i * 0.15, duration: 0.5 }}
                   className="relative flex flex-col items-center text-center"
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-primary-400 text-2xl font-bold text-white shadow-lg shadow-primary-500/20">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#dba1a2] text-2xl font-bold text-brand-teal shadow-lg shadow-brand-teal/10">
                     {step.number}
                   </div>
                   {i < infographicSteps.length - 1 && (
@@ -121,7 +121,7 @@ export function EducationSection() {
               ))}
             </div>
           </div>
-        </FadeIn>
+        </FadeIn> */}
       </div>
     </section>
   );

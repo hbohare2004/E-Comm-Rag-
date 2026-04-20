@@ -8,10 +8,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/context/CartContext";
 
-const categoryColors: Record<string, { dot: string; bg: string; text: string }> = {
-  pads: { dot: "bg-primary-500", bg: "bg-primary-50", text: "text-primary-700" },
-  diapers: { dot: "bg-accent-500", bg: "bg-accent-50", text: "text-accent-700" },
-  masks: { dot: "bg-gold-400", bg: "bg-gold-50", text: "text-gold-600" },
+const categoryStyles: Record<
+  string,
+  { dot: string; bg: string; text: string }
+> = {
+  pads: {
+    dot: "bg-brand-rose",
+    bg: "bg-brand-blush/25",
+    text: "text-brand-teal",
+  },
+  diapers: {
+    dot: "bg-brand-lavender",
+    bg: "bg-brand-lavender/25",
+    text: "text-brand-teal",
+  },
+  masks: {
+    dot: "bg-brand-mustard",
+    bg: "bg-brand-mustard/20",
+    text: "text-brand-teal",
+  },
 };
 
 const bestSellers = ["pad-001", "pad-003", "diaper-002"];
@@ -20,7 +35,7 @@ const recommended = ["pad-002", "pad-004", "diaper-001"];
 export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
-  const catStyle = categoryColors[product.category] ?? categoryColors.pads;
+  const catStyle = categoryStyles[product.category] ?? categoryStyles.pads;
 
   const isBestSeller = bestSellers.includes(product.id);
   const isRecommended = recommended.includes(product.id);
@@ -35,20 +50,19 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ type: "spring", stiffness: 300, damping: 24 }}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-primary-100/30 bg-white shadow-card-soft transition-all duration-500 hover:border-primary-200/50 hover:shadow-card-hover"
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-brand-teal/8 bg-white shadow-[0_4px_24px_-6px_rgba(26,49,61,0.08)] transition-all duration-300 hover:border-brand-blush/35 hover:shadow-[0_20px_40px_-12px_rgba(26,49,61,0.12)]"
     >
-      {/* Premium tags */}
       <div className="absolute right-3 top-3 z-10 flex flex-col gap-1.5">
         {isBestSeller && (
-          <span className="gold-shimmer inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-plum shadow-sm">
-            <Award className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded-full border border-brand-mustard/30 bg-gradient-to-r from-brand-mustard/25 to-brand-blush/30 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-teal shadow-sm">
+            <Award className="h-3 w-3 text-brand-mustard" />
             Best Seller
           </span>
         )}
         {isRecommended && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-primary-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+          <span className="inline-flex items-center gap-1 rounded-full bg-brand-teal px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-offwhite shadow-sm">
             Recommended
           </span>
         )}
@@ -56,56 +70,54 @@ export function ProductCard({ product }: { product: Product }) {
 
       <Link
         href={`/product/${product.id}`}
-        className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary-50/50 to-accent-50/50"
+        className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-brand-offwhite to-brand-blush/15"
       >
         {product.thumbnail_url ? (
           <Image
             src={product.thumbnail_url}
             alt={product.name}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
             sizes="(max-width: 639px) 50vw, (max-width: 1024px) 50vw, 25vw"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <motion.span
               className="text-7xl"
-              whileHover={{ scale: 1.15, rotate: 5 }}
+              whileHover={{ scale: 1.1, rotate: 4 }}
               transition={{ type: "spring", stiffness: 200 }}
             >
               {product.category === "pads"
                 ? "🩹"
                 : product.category === "diapers"
-                ? "👶"
-                : "😷"}
+                  ? "👶"
+                  : "😷"}
             </motion.span>
           </div>
         )}
 
-        {/* Category badge */}
-        <div className={`absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-xl ${catStyle.bg} px-3 py-1.5 text-xs font-semibold ${catStyle.text} backdrop-blur-sm`}>
+        <div
+          className={`absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-xl ${catStyle.bg} px-3 py-1.5 text-xs font-semibold ${catStyle.text} backdrop-blur-sm`}
+        >
           <span className={`h-1.5 w-1.5 rounded-full ${catStyle.dot}`} />
           <span className="capitalize">{product.category}</span>
         </div>
 
-        {/* Eco badge */}
-        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-xl bg-white/90 px-2.5 py-1 text-[10px] font-medium text-plum-400 backdrop-blur-sm">
-          <Leaf className="h-3 w-3 text-emerald-500" />
-          Eco-Friendly
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-xl border border-brand-teal/8 bg-white/90 px-2.5 py-1 text-[10px] font-medium text-brand-teal/70 backdrop-blur-sm">
+          <Leaf className="h-3 w-3 text-brand-lavender" />
+          Eco-friendly
         </div>
 
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-plum/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-teal/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </Link>
 
       <div className="flex flex-1 flex-col p-3 sm:p-5">
         <Link href={`/product/${product.id}`}>
-          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-plum sm:text-[15px] transition-colors duration-300 group-hover:text-primary-500">
+          <h3 className="line-clamp-2 font-display text-sm font-semibold leading-snug text-brand-teal sm:text-[15px] transition-colors duration-300 group-hover:text-brand-rose">
             {product.name}
           </h3>
         </Link>
 
-        {/* Rating */}
         <div className="mt-2.5 flex items-center gap-2">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -113,44 +125,42 @@ export function ProductCard({ product }: { product: Product }) {
                 key={i}
                 className={`h-3.5 w-3.5 ${
                   i < Math.round(product.rating)
-                    ? "fill-gold-300 text-gold-300"
-                    : "fill-primary-50 text-primary-100"
+                    ? "fill-brand-mustard text-brand-mustard"
+                    : "fill-brand-offwhite text-brand-lavender/40"
                 }`}
               />
             ))}
           </div>
-          <span className="text-xs font-medium text-plum-400">
+          <span className="text-xs font-medium text-brand-teal/50">
             ({product.review_count})
           </span>
         </div>
 
-        {/* Trust badges */}
         <div className="mt-3 flex flex-wrap gap-1.5">
-          <span className="rounded-lg bg-primary-50 px-2 py-0.5 text-[10px] font-medium text-primary-600">
-            Dermatologically Tested
+          <span className="rounded-lg bg-brand-blush/20 px-2 py-0.5 text-[10px] font-medium text-brand-teal">
+            Dermatologically tested
           </span>
-          <span className="rounded-lg bg-accent-50 px-2 py-0.5 text-[10px] font-medium text-accent-700">
-            Rash-Free
+          <span className="rounded-lg bg-brand-lavender/20 px-2 py-0.5 text-[10px] font-medium text-brand-teal">
+            Rash-free comfort
           </span>
         </div>
 
-        {/* Price + Cart */}
-        <div className="mt-auto flex items-center justify-between gap-2 pt-3 sm:pt-4">
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4 sm:pt-5">
           <div className="min-w-0">
-            <span className="text-base font-bold text-plum sm:text-xl">
+            <span className="text-lg font-bold text-brand-teal sm:text-xl">
               ₹{product.price.toFixed(0)}
             </span>
-            <span className="ml-1 text-xs text-plum-400">.00</span>
+            <span className="ml-0.5 text-xs text-brand-teal/45">.00</span>
           </div>
           <motion.button
             type="button"
-            whileTap={{ scale: 0.85 }}
+            whileTap={{ scale: 0.92 }}
             onClick={handleAddToCart}
-            className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl shadow-lg transition-all duration-300 sm:h-11 sm:w-11 ${
+            className={`relative flex h-11 min-w-[2.75rem] shrink-0 items-center justify-center rounded-xl px-3 text-white shadow-lg transition-all duration-300 sm:h-12 sm:min-w-[3rem] ${
               added
                 ? "bg-emerald-500 shadow-emerald-500/25"
-                : "bg-gradient-to-br from-primary-500 to-primary-600 shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/35"
-            } text-white`}
+                : "bg-gradient-to-br from-brand-teal to-brand-teal/90 shadow-brand-teal/20 hover:shadow-xl"
+            }`}
             aria-label={`Add ${product.name} to cart`}
           >
             <AnimatePresence mode="wait">

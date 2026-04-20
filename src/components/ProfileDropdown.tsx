@@ -98,7 +98,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary-200/80 bg-white/90 shadow-sm ring-1 ring-primary-100/60 transition-all duration-300 hover:border-primary-300 hover:bg-white hover:shadow-md hover:ring-primary-200/80"
+        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-brand-teal/15 bg-white/95 shadow-sm ring-1 ring-brand-blush/25 transition-all duration-300 hover:border-brand-lavender/40 hover:bg-white hover:shadow-md"
         aria-label="Profile menu"
         aria-expanded={open}
       >
@@ -112,11 +112,11 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
           />
         ) : avatarSvg ? (
           <div
-            className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-primary-200/50"
+            className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-brand-blush/40"
             dangerouslySetInnerHTML={{ __html: avatarSvg }}
           />
         ) : (
-          <User className="h-5 w-5 text-primary-600" strokeWidth={2} aria-hidden />
+          <User className="h-5 w-5 text-brand-teal" strokeWidth={2} aria-hidden />
         )}
       </button>
 
@@ -127,11 +127,11 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -4 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-primary-100/40 bg-white/95 shadow-premium backdrop-blur-xl"
+            className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-brand-teal/10 bg-white/98 shadow-xl shadow-brand-teal/10 backdrop-blur-xl"
           >
-            <div className="border-b border-primary-100/30 px-4 py-3">
+            <div className="border-b border-brand-teal/8 px-4 py-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary-100 to-primary-200">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand-blush/40 to-brand-lavender/35">
                   {avatarImgUrl && !avatarImgError ? (
                     <img src={avatarImgUrl} alt="Avatar" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                   ) : avatarSvg ? (
@@ -140,14 +140,14 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
                       dangerouslySetInnerHTML={{ __html: avatarSvg }}
                     />
                   ) : (
-                    <User className="h-5 w-5 text-primary-500" />
+                    <User className="h-5 w-5 text-brand-teal" />
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-plum">
+                  <p className="truncate text-sm font-semibold text-brand-teal">
                     {user.user_metadata?.full_name || user.email?.split("@")[0] || "User"}
                   </p>
-                  <p className="truncate text-xs text-plum-400">
+                  <p className="truncate text-xs text-brand-teal/55">
                     {user.email}
                   </p>
                 </div>
@@ -159,10 +159,10 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
                 <button
                   type="button"
                   onClick={() => handleNavigation("/admin")}
-                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-primary-600 transition-colors duration-200 hover:bg-primary-50"
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-teal transition-colors duration-200 hover:bg-brand-offwhite"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-50">
-                    <ChevronDown className="h-4 w-4 rotate-[-90deg] text-primary-500" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-lavender/20">
+                    <ChevronDown className="h-4 w-4 rotate-[-90deg] text-brand-teal" />
                   </div>
                   Admin Panel
                 </button>
@@ -171,10 +171,10 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("/profile")}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-plum transition-colors duration-200 hover:bg-primary-50 hover:text-primary-600"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-teal transition-colors duration-200 hover:bg-brand-offwhite hover:text-brand-rose"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-50/60">
-                  <User className="h-4 w-4 text-primary-400" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-blush/25">
+                  <User className="h-4 w-4 text-brand-teal/80" />
                 </div>
                 My Profile
               </button>
@@ -182,15 +182,15 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("/profile/orders")}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-plum transition-colors duration-200 hover:bg-primary-50 hover:text-primary-600"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-teal transition-colors duration-200 hover:bg-brand-offwhite hover:text-brand-rose"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-50/60">
-                  <Package className="h-4 w-4 text-primary-400" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-blush/25">
+                  <Package className="h-4 w-4 text-brand-teal/80" />
                 </div>
                 My Orders
               </button>
 
-              <div className="my-1 h-px bg-gradient-to-r from-transparent via-primary-200 to-transparent" />
+              <div className="my-1 h-px bg-gradient-to-r from-transparent via-brand-blush/35 to-transparent" />
 
               <button
                 type="button"
@@ -199,10 +199,10 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
                     void signOut();
                   })
                 }
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-plum transition-colors duration-200 hover:bg-red-50 hover:text-red-600"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-teal transition-colors duration-200 hover:bg-brand-rose/10 hover:text-brand-rose"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50/60">
-                  <LogOut className="h-4 w-4 text-red-400" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-rose/10">
+                  <LogOut className="h-4 w-4 text-brand-rose" />
                 </div>
                 Logout
               </button>

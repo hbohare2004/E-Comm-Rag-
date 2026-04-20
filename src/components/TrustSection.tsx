@@ -7,32 +7,32 @@ import { StaggerContainer, StaggerItem, FadeIn } from "./MotionWrapper";
 const badges = [
   {
     icon: ShieldCheck,
-    title: "Safe & Hygienic",
-    description: "Clinically tested for safety and purity. Every batch goes through rigorous quality checks.",
+    title: "Recognised Quality Standards",
+    description: "GeM-recognised OEM by Quality Council of India with field-ready quality processes built for reliable output.",
     gradient: "from-primary-500 to-primary-400",
     bg: "bg-primary-50",
     iconColor: "text-primary-500",
   },
   {
     icon: Heart,
-    title: "Dermatologically Tested",
-    description: "Gentle on the most sensitive skin. Certified safe by leading dermatologists.",
+    title: "DPIIT-Recognised Startup",
+    description: "Trusted Indian innovation partner helping institutions and communities build dignified menstrual hygiene access.",
     gradient: "from-primary-400 to-primary-300",
     bg: "bg-primary-50",
     iconColor: "text-primary-400",
   },
   {
     icon: Leaf,
-    title: "Eco-Friendly",
-    description: "Sustainable materials with biodegradable packaging. Caring for you and the planet.",
+    title: "End-to-End Support",
+    description: "From machines and raw materials to vocational training and awareness programmes, we support every stage.",
     gradient: "from-emerald-500 to-emerald-400",
     bg: "bg-emerald-50",
     iconColor: "text-emerald-500",
   },
   {
     icon: Award,
-    title: "Premium Quality",
-    description: "Award-winning products trusted by 50,000+ women across India.",
+    title: "Proven Global Installations",
+    description: "Implemented across schools, NGOs, CSR and government projects with practical, serviceable deployments.",
     gradient: "from-gold-400 to-gold-300",
     bg: "bg-gold-50",
     iconColor: "text-gold-500",
@@ -58,16 +58,16 @@ export function TrustSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center">
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600">
+            {/* <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600">
               Why Choose Us
-            </span>
+            </span> */}
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-plum sm:text-4xl lg:text-5xl">
               Why Women Trust{" "}
-              <span className="gradient-text">PureCare</span>
+              <span className="gradient-text">Cottorin</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-plum-400">
-              Every product is crafted with the highest standards of hygiene,
-              comfort, and care — because you deserve nothing less.
+              Cottorin is originated from <b className="text-plum">Rag Innovations</b>, bringing proven
+              manufacturing expertise, quality standards, and trusted support.
             </p>
           </div>
         </FadeIn>

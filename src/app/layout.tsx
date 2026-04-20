@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -12,9 +12,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -25,7 +26,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "PureCare — Premium Feminine Wellness",
+  title: "Cottorin — Premium Feminine Wellness",
   description:
     "Experience premium sanitary pads crafted with care. Dermatologically tested, ultra-soft, breathable, and eco-friendly protection for every woman.",
 };
@@ -38,10 +39,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${poppins.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <Providers>
-          <div className="flex min-h-screen flex-col bg-ivory">
+          <div className="flex min-h-screen flex-col bg-brand-offwhite">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />

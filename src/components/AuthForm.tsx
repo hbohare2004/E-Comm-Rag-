@@ -86,7 +86,7 @@ export function AuthForm({ variant, registeredBanner, redirectTo }: Props) {
       ? "/auth/signup"
       : `/auth/signup?next=${encodeURIComponent(redirectTarget)}`;
 
-  const title = variant === "login" ? "Welcome Back" : "Join PureCare";
+  const title = variant === "login" ? "Welcome Back" : "Join Cottorin";
   const subtitle =
     variant === "login"
       ? "Sign in to your account"
@@ -187,11 +187,9 @@ export function AuthForm({ variant, registeredBanner, redirectTo }: Props) {
     <div className="min-h-screen bg-gradient-to-br from-ivory via-white to-primary-50 px-4 py-12 transition-colors duration-300">
       <div className="mx-auto flex max-w-md flex-col gap-8">
         <header className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-primary-400 text-white shadow-lg shadow-primary-500/20 transition-transform duration-300 hover:scale-105">
-            <Heart className="h-7 w-7" strokeWidth={1.75} fill="currentColor" aria-hidden />
-          </div>
+          
           <h1 className="font-display text-2xl font-bold tracking-tight text-plum">
-            PureCare
+            Cottorin
           </h1>
           <p className="mt-1 text-sm text-plum-400">{subtitle}</p>
         </header>
@@ -277,7 +275,7 @@ export function AuthForm({ variant, registeredBanner, redirectTo }: Props) {
               <button
                 type="submit"
                 disabled={phoneSubmitting}
-                className="w-full rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition duration-300 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-2xl bg-[#2F4F5F] from-primary-500 to-primary-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition duration-300 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {phoneSubmitting ? "Sending code…" : "Send OTP"}
               </button>

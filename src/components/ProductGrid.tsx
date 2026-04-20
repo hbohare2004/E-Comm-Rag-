@@ -25,24 +25,26 @@ export function ProductGrid({
     <section
       id={id}
       className={`scroll-mt-20 py-20 sm:py-28 ${
-        variant === "alt" ? "bg-gradient-section-alt" : "bg-gradient-section"
+        variant === "alt"
+          ? "bg-gradient-to-b from-white via-brand-offwhite to-brand-blush/10"
+          : "bg-gradient-to-b from-brand-offwhite via-white to-brand-offwhite"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center">
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600">
-              Our Collection
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-plum sm:text-4xl lg:text-5xl">
+            {/* <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-brand-teal/10 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-teal shadow-sm">
+              Our collection
+            </span> */}
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-teal sm:text-4xl lg:text-5xl">
               {title}
             </h2>
             {subtitle && (
-              <p className="mx-auto mt-4 max-w-2xl text-lg text-plum-400">
+              <p className="mx-auto mt-4 max-w-2xl text-lg text-brand-teal/60">
                 {subtitle}
               </p>
             )}
-            <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-gradient-to-r from-primary-500 to-primary-300" />
+            <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-gradient-to-r from-brand-rose via-brand-lavender to-brand-blush" />
           </div>
         </FadeIn>
 

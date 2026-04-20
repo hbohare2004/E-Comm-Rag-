@@ -1,4 +1,4 @@
-# PureCare — Premium Hygiene E-Commerce
+# Cottorin — Premium Hygiene E-Commerce
 
 A modern full-stack e-commerce website built with **Next.js 14** (App Router), **Tailwind CSS**, **Supabase**, and **Stripe**. Focused on sanitary pads, diapers, and masks.
 

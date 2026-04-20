@@ -85,7 +85,7 @@ export function Hero() {
               href="/#why-choose"
               className="inline-flex h-14 w-full items-center justify-center rounded-2xl border border-brand-teal/15 bg-white/85 px-8 text-base font-semibold text-brand-teal shadow-md backdrop-blur-sm transition hover:border-brand-blush/40 hover:bg-white sm:w-auto"
             >
-              Why PureCare
+              Why Cottorin
             </Link>
           </motion.div>
 

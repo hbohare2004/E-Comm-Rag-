@@ -3,14 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #C2185B;
-  --color-secondary: #F8BBD9;
-  --color-accent: #FFCCBC;
-  --color-bg: #FFF8F2;
-  --color-surface: #FFFFFF;
-  --color-text: #3E1A24;
-  --color-text-secondary: #A0687A;
-  --color-gold: #F4C27F;
+  --color-brand-teal: #1a313d;
+  --color-brand-offwhite: #f4f6f8;
+  --color-brand-blush: #e8b7b9;
+  --color-brand-lavender: #c8b6e2;
+  --color-brand-rose: #d97a7a;
+  --color-brand-mustard: #d4a373;
+  --color-primary: #1a313d;
+  --color-secondary: #e8b7b9;
+  --color-accent: #c8b6e2;
+  --color-bg: #f4f6f8;
+  --color-surface: #ffffff;
+  --color-text: #1a313d;
+  --color-text-secondary: #5a6b72;
+  --color-gold: #d4a373;
 }
 
 @layer base {
@@ -56,9 +62,14 @@
     border: 1px solid rgba(248, 187, 217, 0.1);
   }
 
-  /* Gradient text */
+  /* Gradient text — brand rose → lavender → blush */
   .gradient-text {
-    background: linear-gradient(135deg, #C2185B 0%, #F8BBD9 50%, #E91E63 100%);
+    background: linear-gradient(
+      135deg,
+      #d97a7a 0%,
+      #c8b6e2 45%,
+      #e8b7b9 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -81,15 +92,21 @@
   }
 
   .bg-gradient-hero {
-    background: linear-gradient(160deg, #FFF8F2 0%, #FFD9E4 30%, #FFF8F2 50%, #FFEDE3 70%, #FFF8F2 100%);
+    background: linear-gradient(
+      165deg,
+      #f4f6f8 0%,
+      #e8e4f4 35%,
+      #f4f6f8 70%,
+      #f0e8ea 100%
+    );
   }
 
   .bg-gradient-section {
-    background: linear-gradient(180deg, #FFF8F2 0%, #FFFFFF 50%, #FFF8F2 100%);
+    background: linear-gradient(180deg, #f4f6f8 0%, #ffffff 50%, #f4f6f8 100%);
   }
 
   .bg-gradient-section-alt {
-    background: linear-gradient(180deg, #FFFFFF 0%, #FFF0F3 50%, #FFF8F2 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #f0e8ea 45%, #f4f6f8 100%);
   }
 
   /* Premium glow button */
@@ -101,7 +118,7 @@
     content: "";
     position: absolute;
     inset: -2px;
-    background: linear-gradient(135deg, #C2185B, #F8BBD9, #C2185B);
+    background: linear-gradient(135deg, #1a313d, #c8b6e2, #d97a7a);
     border-radius: inherit;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -162,13 +179,13 @@
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #FFF8F2;
+    background: #f4f6f8;
   }
   ::-webkit-scrollbar-thumb {
-    background: #F8BBD9;
+    background: #c8b6e2;
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #C2185B;
+    background: #1a313d;
   }
 }

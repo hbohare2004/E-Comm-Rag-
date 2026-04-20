@@ -18,7 +18,7 @@ const testimonials = [
     name: "Anitha R.",
     rating: 5,
     comment:
-      "I switched to PureCare and the difference is incredible. No more irritation, and the absorption is amazing. These are truly premium quality.",
+      "I switched to Cottorin and the difference is incredible. No more irritation, and the absorption is amazing. These are truly premium quality.",
     product: "Organic Cotton Pads",
     avatar: "AR",
   },
@@ -34,7 +34,7 @@ const testimonials = [
     name: "Divya M.",
     rating: 5,
     comment:
-      "My daughter loves the teen range. They are discreet, comfortable, and give her so much confidence during school days. Thank you PureCare!",
+      "My daughter loves the teen range. They are discreet, comfortable, and give her so much confidence during school days. Thank you Cottorin!",
     product: "Teen Comfort Pads",
     avatar: "DM",
   },
@@ -99,17 +99,15 @@ export function ReviewSection() {
       <div className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-primary-200/40 to-transparent" />
       <div className="absolute -left-40 top-1/3 h-80 w-80 rounded-full bg-primary-100/15 blur-[100px]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center">
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600">
-              Testimonials
-            </span>
+            
             <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-plum sm:text-4xl lg:text-5xl">
               What Our Customers Say
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-plum-400">
-              Real reviews from real women who trust PureCare for their daily comfort and protection.
+              Real reviews from real women who trust Cottorin for their daily comfort and protection.
             </p>
           </div>
         </FadeIn>

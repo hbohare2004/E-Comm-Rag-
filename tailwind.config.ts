@@ -9,6 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          teal: "#1a313d",
+          offwhite: "#F4F6F8",
+          blush: "#E8B7B9",
+          lavender: "#C8B6E2",
+          rose: "#D97A7A",
+          mustard: "#D4A373",
+        },
         primary: {
           50: "#FFF0F3",
           100: "#FFD9E4",
@@ -56,7 +64,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: ["var(--font-playfair)", "Georgia", "serif"],
+        display: ["var(--font-poppins)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
       },
       boxShadow: {

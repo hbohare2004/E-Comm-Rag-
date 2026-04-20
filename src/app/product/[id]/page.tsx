@@ -180,7 +180,7 @@ export default async function ProductPage({
               Layers of Protection
             </h2>
             <p className="mt-2 text-plum-400">
-              Every PureCare pad features multi-layer protection technology.
+              Every Cottorin pad features multi-layer protection technology.
             </p>
 
             <div className="mt-8 grid gap-6 sm:grid-cols-3">
