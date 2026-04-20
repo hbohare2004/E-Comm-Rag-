@@ -98,7 +98,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-brand-teal/15 bg-white/95 shadow-sm ring-1 ring-brand-blush/25 transition-all duration-300 hover:border-brand-lavender/40 hover:bg-white hover:shadow-md"
+        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-brand-teal/15 bg-white shadow-sm ring-1 ring-brand-blush/25 transition-all duration-300 hover:border-brand-lavender/40 hover:bg-white hover:shadow-md"
         aria-label="Profile menu"
         aria-expanded={open}
       >
@@ -112,7 +112,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
           />
         ) : avatarSvg ? (
           <div
-            className="h-7 w-7 overflow-hidden rounded-full ring-1 ring-brand-blush/40"
+            className="h-7 w-7 overflow-hidden rounded-full bg-white ring-1 ring-brand-blush/40"
             dangerouslySetInnerHTML={{ __html: avatarSvg }}
           />
         ) : (
@@ -127,7 +127,7 @@ export function ProfileDropdown({ onAction }: { onAction?: () => void }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -4 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-brand-teal/10 bg-white/98 shadow-xl shadow-brand-teal/10 backdrop-blur-xl"
+            className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-brand-teal/10 bg-white shadow-xl shadow-brand-teal/10"
           >
             <div className="border-b border-brand-teal/8 px-4 py-3">
               <div className="flex items-center gap-3">
