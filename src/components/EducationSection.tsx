@@ -1,5 +1,6 @@
 "use client";
 
+/*
 import { Droplets, Calendar, Shield, Heart, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { FadeIn, StaggerContainer, StaggerItem } from "./MotionWrapper";
@@ -45,6 +46,7 @@ const infographicSteps = [
   { number: "03", label: "Super-absorbent core", desc: "Locks in fluid" },
   { number: "04", label: "Breathable back sheet", desc: "Prevents leaks" },
 ];
+*/
 
 export function EducationSection() {
   return (

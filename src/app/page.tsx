@@ -2,8 +2,6 @@ import { Hero } from "@/components/Hero";
 import { TrustSection } from "@/components/TrustSection";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ReviewSection } from "@/components/ReviewSection";
-import { EducationSection } from "@/components/EducationSection";
-import { CtaBanner } from "@/components/CtaBanner";
 import { sampleProducts } from "@/lib/sample-data";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/lib/types";
@@ -33,7 +31,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <TrustSection />
+      
       <ProductGrid
         title="Premium Sanitary Pads"
         subtitle="Ultra-soft, leak-proof protection designed for all-day comfort and confidence."
@@ -48,7 +46,8 @@ export default async function Home() {
         variant="alt"
       />
       {/* <EducationSection /> */}
-      <CtaBanner />
+      {/* <CtaBanner /> */}
+      <TrustSection />
       <ReviewSection />
     </>
   );

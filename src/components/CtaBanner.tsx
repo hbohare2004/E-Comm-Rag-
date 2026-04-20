@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Heart, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { FadeIn } from "./MotionWrapper";
 import { motion } from "framer-motion";
 

@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Heart } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 function normalizeE164(raw: string): string {

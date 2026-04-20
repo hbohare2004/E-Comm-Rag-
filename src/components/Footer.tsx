@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, Mail, Phone, ExternalLink } from "lucide-react";
+import { Mail, Phone, ExternalLink } from "lucide-react";
 
 export function Footer() {
   return (
