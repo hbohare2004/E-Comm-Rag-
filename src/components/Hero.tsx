@@ -76,14 +76,14 @@ export function Hero() {
           >
             <Link
               href="/#pads"
-              className="btn-glow inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand-teal px-8 text-base font-semibold text-brand-offwhite shadow-lg shadow-brand-teal/20 transition hover:bg-brand-teal/95 sm:w-auto"
+              className="btn-glow inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand-teal px-8 text-base font-semibold text-brand-offwhite shadow-lg shadow-brand-teal/20 transition hover:bg-brand-rose sm:w-auto"
             >
               Shop collection
               <ArrowRight className="h-5 w-5 shrink-0" aria-hidden />
             </Link>
             <Link
               href="/#why-choose"
-              className="inline-flex h-14 w-full items-center justify-center rounded-2xl border border-brand-teal/15 bg-white/85 px-8 text-base font-semibold text-brand-teal shadow-md backdrop-blur-sm transition hover:border-brand-blush/40 hover:bg-white sm:w-auto"
+              className="inline-flex h-14 w-full items-center justify-center rounded-2xl border border-brand-teal/15 bg-white/85 px-8 text-base font-semibold text-brand-teal shadow-md backdrop-blur-sm transition hover:border-brand-rose/45 hover:bg-white sm:w-auto"
             >
               Why Cottorin
             </Link>

@@ -5,7 +5,7 @@ import { Mail, Phone, ExternalLink } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-brand-teal/15 bg-gradient-to-br from-brand-teal via-brand-teal/95 to-[#152830]">
+    <footer className="relative overflow-hidden border-t border-primary-100/50 bg-gradient-to-br from-brand-teal via-brand-teal/95 to-brand-teal/90">
       {/* Decorative glow */}
       <div className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-brand-lavender/15 blur-[100px]" />
       <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-brand-rose/10 blur-[100px]" />

@@ -25,9 +25,9 @@ const badges = [
     icon: Leaf,
     title: "Complete End-to-End Setup",
     description: "From machines and raw materials to vocational training and awareness programmes, we support every aspect.",
-    gradient: "from-emerald-500 to-emerald-400",
-    bg: "bg-emerald-50",
-    iconColor: "text-emerald-500",
+    gradient: "from-accent-500 to-accent-300",
+    bg: "bg-accent-50",
+    iconColor: "text-accent-600",
   },
   {
     icon: Award,

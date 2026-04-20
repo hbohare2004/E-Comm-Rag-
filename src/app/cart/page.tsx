@@ -84,7 +84,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/"
-            className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-[#1F2A3D] px-7 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E89BAE]/90 hover:shadow-xl"
           >
             <ArrowLeft className="h-4 w-4" />
             Continue Shopping
@@ -99,7 +99,7 @@ export default function CartPage() {
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-plum-400 transition hover:text-primary-500"
+          className="mb-6 inline-flex w-fit items-center gap-2 rounded-xl bg-[#1F2A3D] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#E89BAE]/90"
         >
           <ArrowLeft className="h-4 w-4" />
           Continue shopping

@@ -55,7 +55,7 @@ export function Navbar() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-brand-teal/10 bg-brand-offwhite/90 shadow-md shadow-brand-teal/5 backdrop-blur-xl"
+          ? "border-b border-primary-100 bg-brand-offwhite/90 shadow-md shadow-brand-teal/5 backdrop-blur-xl"
           : "border-b border-transparent bg-brand-offwhite/70 backdrop-blur-md"
       }`}
     >
@@ -105,7 +105,7 @@ export function Navbar() {
               </Link>
               <Link
                 href="/auth/login"
-                className="hidden items-center gap-1.5 rounded-xl border border-brand-teal/10 bg-white/80 px-4 py-2.5 text-sm font-semibold text-brand-teal shadow-sm transition-all duration-200 hover:border-brand-blush/30 hover:bg-white sm:inline-flex"
+                className="hidden items-center gap-1.5 rounded-xl border border-primary-100 bg-white/80 px-4 py-2.5 text-sm font-semibold text-brand-teal shadow-sm transition-all duration-200 hover:border-brand-blush/45 hover:bg-white sm:inline-flex"
               >
                 <User className="h-4 w-4" aria-hidden />
                 Sign In
@@ -163,7 +163,7 @@ export function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-brand-teal/10 bg-brand-offwhite/98 backdrop-blur-xl md:hidden"
+            className="overflow-hidden border-t border-primary-100 bg-brand-offwhite/98 backdrop-blur-xl md:hidden"
           >
             <nav
               className="flex flex-col gap-1 px-4 py-4"
@@ -179,7 +179,7 @@ export function Navbar() {
                   {label}
                 </Link>
               ))}
-              <div className="my-2 h-px bg-gradient-to-r from-transparent via-brand-blush/40 to-transparent" />
+              <div className="my-2 h-px bg-gradient-to-r from-transparent via-primary-100 to-transparent" />
               {!loading && user ? (
                 <>
                   <button

@@ -103,8 +103,8 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="capitalize">{product.category}</span>
         </div>
 
-        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-xl border border-brand-teal/8 bg-white/90 px-2.5 py-1 text-[10px] font-medium text-brand-teal/70 backdrop-blur-sm">
-          <Leaf className="h-3 w-3 text-brand-lavender" />
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-xl border border-success-100/70 bg-success-50/85 px-2.5 py-1 text-[10px] font-medium text-success-600 backdrop-blur-sm">
+          <Leaf className="h-3 w-3 text-success-500" />
           Eco-friendly
         </div>
 
@@ -158,8 +158,8 @@ export function ProductCard({ product }: { product: Product }) {
             onClick={handleAddToCart}
             className={`relative flex h-11 min-w-[2.75rem] shrink-0 items-center justify-center rounded-xl px-3 text-white shadow-lg transition-all duration-300 sm:h-12 sm:min-w-[3rem] ${
               added
-                ? "bg-emerald-500 shadow-emerald-500/25"
-                : "bg-gradient-to-br from-brand-teal to-brand-teal/90 shadow-brand-teal/20 hover:shadow-xl"
+                ? "bg-success-500 shadow-success-500/25"
+                : "bg-gradient-to-br from-brand-teal to-brand-teal/90 shadow-brand-teal/20 hover:from-brand-teal hover:to-brand-rose hover:shadow-xl"
             }`}
             aria-label={`Add ${product.name} to cart`}
           >

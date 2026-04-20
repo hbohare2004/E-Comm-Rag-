@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export function CtaBanner() {
   return (
-    <section className="relative overflow-hidden bg-[#dba1a2] py-24 sm:py-28">
+    <section className="relative overflow-hidden bg-gradient-to-br from-brand-blush to-brand-lavender py-24 sm:py-28">
       {/* Decorative elements */}
       <div className="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-white/25 blur-3xl" />
       <div className="absolute -bottom-20 -right-20 h-80 w-80 rounded-full bg-white/20 blur-3xl" />
@@ -43,7 +43,7 @@ export function CtaBanner() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/#pads"
-              className="group inline-flex items-center gap-2 rounded-2xl bg-brand-teal px-8 py-4 text-base font-semibold text-brand-offwhite shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-teal/95 hover:shadow-xl"
+              className="group inline-flex items-center gap-2 rounded-2xl bg-brand-teal px-8 py-4 text-base font-semibold text-brand-offwhite shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-rose hover:shadow-xl"
             >
               <Sparkles className="h-4 w-4 text-brand-mustard" />
               Start Shopping

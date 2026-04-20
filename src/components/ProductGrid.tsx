@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import type { Product } from "@/lib/types";
 import { ProductCard } from "./ProductCard";
 import { StaggerContainer, StaggerItem, FadeIn } from "./MotionWrapper";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductGridProps {
   title: string;
@@ -19,7 +21,16 @@ export function ProductGrid({
   id,
   variant = "light",
 }: ProductGridProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
   if (products.length === 0) return null;
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <section
@@ -44,17 +55,47 @@ export function ProductGrid({
                 {subtitle}
               </p>
             )}
-            <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-gradient-to-r from-brand-rose via-brand-lavender to-brand-blush" />
+            <div className="mx-auto mt-5 h-1 w-20 rounded-full bg-gradient-to-r from-brand-blush via-brand-lavender to-brand-rose" />
           </div>
         </FadeIn>
 
-        <StaggerContainer className="mt-14 grid grid-cols-2 gap-3 gap-y-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
-            <StaggerItem key={product.id} className="min-w-0">
-              <ProductCard product={product} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <div key={currentPage}>
+          <StaggerContainer className="mt-14 grid grid-cols-2 gap-3 gap-y-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {paginatedProducts.map((product) => (
+              <StaggerItem key={product.id} className="min-w-0">
+                <ProductCard product={product} />
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+
+        {totalPages > 1 && (
+          <FadeIn delay={0.2}>
+            <div className="mt-12 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-teal/20 bg-white text-brand-teal shadow-sm transition hover:bg-brand-offwhite hover:text-brand-rose disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              
+              <span className="text-sm font-semibold text-brand-teal">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-teal/20 bg-white text-brand-teal shadow-sm transition hover:bg-brand-offwhite hover:text-brand-rose disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </FadeIn>
+        )}
       </div>
     </section>
   );
