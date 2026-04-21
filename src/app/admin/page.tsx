@@ -145,13 +145,16 @@ function ProductsPanel() {
     setSaving(true);
     setError(null);
 
+    const imageUrl = form.image_url.trim();
+    const thumbnailUrl = form.thumbnail_url.trim() || imageUrl;
+
     const payload = {
       name: form.name,
       description: form.description,
       price: parsedPrice,
       category: form.category,
-      image_url: form.image_url,
-      thumbnail_url: form.thumbnail_url,
+      image_url: imageUrl,
+      thumbnail_url: thumbnailUrl,
     };
 
     if (!supabase) { setError("Supabase not configured"); setSaving(false); return; }
