@@ -34,7 +34,7 @@ export default async function Home() {
   const products = await getProducts();
   const pads = products.filter((p) => p.category === "pads");
   const diapers = products.filter((p) => p.category === "diapers");
-  const masks = products.filter((p) => p.category === "masks");
+  // const masks = products.filter((p) => p.category === "masks");
 
   return (
     <>
