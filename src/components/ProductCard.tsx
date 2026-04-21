@@ -124,7 +124,7 @@ export function ProductCard({ product }: { product: Product }) {
               <Star
                 key={i}
                 className={`h-3.5 w-3.5 ${
-                  i < Math.round(product.rating)
+                  i < Math.round(product.rating ?? 5)
                     ? "fill-brand-mustard text-brand-mustard"
                     : "fill-brand-offwhite text-brand-lavender/40"
                 }`}
@@ -132,7 +132,7 @@ export function ProductCard({ product }: { product: Product }) {
             ))}
           </div>
           <span className="text-xs font-medium text-brand-teal/50">
-            ({product.review_count})
+            ({product.review_count ?? 0})
           </span>
         </div>
 

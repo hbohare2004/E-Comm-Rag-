@@ -16,17 +16,25 @@ async function getProducts(): Promise<Product[]> {
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error || !data || data.length === 0) {
+  if (error) {
+    console.error("Error fetching products:", error);
     return sampleProducts;
   }
 
-  return data as Product[];
+  // Combine database products with sample products so the user can see everything
+  if (data && data.length > 0) {
+    const dbProducts = data as Product[];
+    return [...dbProducts, ...sampleProducts.filter(sp => !dbProducts.find(dp => dp.id === sp.id))];
+  }
+
+  return sampleProducts;
 }
 
 export default async function Home() {
   const products = await getProducts();
   const pads = products.filter((p) => p.category === "pads");
   const diapers = products.filter((p) => p.category === "diapers");
+  const masks = products.filter((p) => p.category === "masks");
 
   return (
     <>
@@ -44,6 +52,12 @@ export default async function Home() {
         products={diapers}
         id="diapers"
         variant="alt"
+      />
+      <ProductGrid
+        title="Protective Masks"
+        subtitle="Comfortable, reliable everyday protection for families and healthcare needs."
+        products={masks}
+        id="masks"
       />
       {/* <EducationSection /> */}
       {/* <CtaBanner /> */}
