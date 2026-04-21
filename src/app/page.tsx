@@ -53,12 +53,12 @@ export default async function Home() {
         id="diapers"
         variant="alt"
       />
-      <ProductGrid
+      {/* <ProductGrid
         title="Protective Masks"
         subtitle="Comfortable, reliable everyday protection for families and healthcare needs."
         products={masks}
         id="masks"
-      />
+      /> */}
       {/* <EducationSection /> */}
       {/* <CtaBanner /> */}
       <TrustSection />
